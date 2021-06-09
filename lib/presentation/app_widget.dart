@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:state_management_udemy/presentation/home/home_page.dart';
+import 'package:state_management_udemy/presentation/sign_in/sign_in_page.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: SignInPage(),
     );
   }
 }
