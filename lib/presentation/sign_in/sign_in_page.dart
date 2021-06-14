@@ -120,8 +120,8 @@ class _SignInPageState extends State<SignInPage> {
     return RaisedButton(
       onPressed: () {
         //panggil cubit untuk sign in user.
-        final _requestData = LoginRequest(
-            email: _emailController.text, password: _passwordController.text);
+        final _requestData =
+            LoginRequest(email: "eve.holt@reqres.in", password: "cityslicka");
 
         //old version
         // context.bloc<AuthCubit>().signInUser(_requestData);
