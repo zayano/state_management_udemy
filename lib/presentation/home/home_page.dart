@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:state_management_udemy/domain/auth/model/login_response.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, @required this.loginResponse}) : super(key: key);
+  HomePage({Key? key, required this.loginResponse}) : super(key: key);
 
   final LoginResponse loginResponse;
 
@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.loginResponse.token),
+        title: Text(widget.loginResponse.token.toString()),
       ),
     );
   }
