@@ -6,11 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management_udemy/application/auth/cubit/auth_cubit.dart';
+import 'package:state_management_udemy/domain/auth/model/login_request.dart';
 import 'package:state_management_udemy/presentation/home/home_page.dart';
 
 class SignInPage extends StatefulWidget {
-  static final String path = "lib/src/pages/login/login1.dart";
-
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -25,15 +24,21 @@ class _SignInPageState extends State<SignInPage> {
       body: BlocProvider(
         create: (context) => AuthCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
-          //untuk save data response
           if (state is AuthError) {
-            print(state.errorMessage);
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Error"),
+                content: Text(state.errorMessage),
+              ),
+            );
           } else if (state is AuthLoading) {
             print("loading");
           } else if (state is AuthLoginSuccess) {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => MyHomePage()));
-            print(state.dataLogin);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HomePage(
+                      loginResponse: state.dataLogin,
+                    )));
           }
         }, builder: (context, state) {
           return Container(
@@ -87,10 +92,9 @@ class _SignInPageState extends State<SignInPage> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: (state is AuthLoading)
-                              ? _loginButtonLoading()
-                              : _loginButton(context),
-                        ),
+                            child: (state is AuthLoading)
+                                ? _loginButtonLoading()
+                                : _loginButton(context)),
                       ],
                     ),
                     SizedBox(
@@ -116,10 +120,14 @@ class _SignInPageState extends State<SignInPage> {
     return RaisedButton(
       onPressed: () {
         //panggil cubit untuk sign in user.
-        BlocProvider.of<AuthCubit>(context, listen: false).signInUser(
-          _emailController.text,
-          _passwordController.text,
-        );
+        final _requestData = LoginRequest(
+            email: _emailController.text, password: _passwordController.text);
+
+        //old version
+        // context.bloc<AuthCubit>().signInUser(_requestData);
+
+        //new version
+        BlocProvider.of<AuthCubit>(context).signInUser(_requestData);
       },
       color: Colors.cyan,
       child: Text(
@@ -129,9 +137,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  // ignore: deprecated_member_use
   Center _loginButtonLoading() {
-    // ignore: deprecated_member_use
     return Center(
       child: CircularProgressIndicator(),
     );

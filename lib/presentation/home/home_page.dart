@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:state_management_udemy/domain/auth/model/login_response.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key key, @required this.loginResponse}) : super(key: key);
+
+  final LoginResponse loginResponse;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.loginResponse.token),
+      ),
+    );
   }
 }
