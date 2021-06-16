@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:state_management_udemy/application/user/cubit/user_cubit.dart';
+import 'package:state_management_udemy/domain/core/user/model/user_req_res.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _UserPageState extends State<UserPage> {
         onPressed: () {
           Get.defaultDialog(title: "Add New User", content: AddUserDialog());
         },
-        child: Text(""),
+        child: Text("Add"),
       ),
     );
   }
@@ -37,35 +40,54 @@ class _AddUserDialogState extends State<AddUserDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: nameController,
-          decoration: InputDecoration(hintText: "Name"),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        TextField(
-          controller: jobController,
-          decoration: InputDecoration(hintText: "Job"),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          width: double.infinity,
-          height: 40,
-          // ignore: deprecated_member_use
-          child: RaisedButton(
-            onPressed: () {
-              print(nameController.text);
-              print(jobController.text);
+    return BlocProvider(
+      create: (context) => UserCubit(),
+      child: BlocConsumer<UserCubit, UserState>(
+        listener: (context, state) {
+          state.maybeMap(
+            orElse: () => print("None"),
+            success: (value) {
+              print(value.userData.toString());
+              Navigator.pop(context);
             },
-            child: Text("Save"),
-          ),
-        ),
-      ],
+          );
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(hintText: "Name"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: jobController,
+                decoration: InputDecoration(hintText: "Job"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: double.infinity,
+                height: 40,
+                // ignore: deprecated_member_use
+                child: RaisedButton(
+                  onPressed: () {
+                    final _data = RequestData(
+                      job: jobController.text,
+                      name: nameController.text,
+                    );
+                    BlocProvider.of<UserCubit>(context).createNewUser(_data);
+                  },
+                  child: Text("Save"),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
