@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             Text("Something wrong"),
             IconButton(
               onPressed: () {
-                BlocProvider.of<ProfilebBloc>(context)
+                BlocProvider.of<ProfilebBloc>(context, listen: false)
                     .add(ProfilebEvent.getAllUserData());
               },
               icon: Icon(Icons.replay),

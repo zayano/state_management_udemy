@@ -129,7 +129,8 @@ class _SignInPageState extends State<SignInPage> {
         // context.bloc<AuthCubit>().signInUser(_requestData);
 
         //new version
-        BlocProvider.of<AuthCubit>(context).signInUser(_requestData);
+        BlocProvider.of<AuthCubit>(context, listen: false)
+            .signInUser(_requestData);
       },
       color: Colors.cyan,
       child: Text(
