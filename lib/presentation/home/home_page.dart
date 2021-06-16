@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:state_management_udemy/application/profile/bloc/profileb_bloc.dart';
 import 'package:state_management_udemy/domain/auth/model/login_response.dart';
 import 'package:state_management_udemy/domain/core/user/model/user_response.dart';
+import 'package:state_management_udemy/presentation/sign_in/sign_in_page.dart';
 import 'package:state_management_udemy/utils/constants.dart' as constants;
 
 class HomePage extends StatefulWidget {
@@ -87,6 +88,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_loginResponse!.token.toString()),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              GetStorage().erase();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignInPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         child: ListView.builder(
