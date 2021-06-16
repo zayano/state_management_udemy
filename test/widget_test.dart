@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:state_management_udemy/main.dart';
 import 'package:state_management_udemy/presentation/app_widget.dart';
 
 void main() {
